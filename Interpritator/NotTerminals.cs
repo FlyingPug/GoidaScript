@@ -9,7 +9,7 @@ namespace Interpritator
 {
     public abstract class NotTerminal : Token
     {
-        public List<(Token, RPNAction)> Evaluate(Terminal currentTerminal)
+        public List<(Token, Terminal)> Evaluate(Terminal currentTerminal)
         {
             throw new NotImplementedException();
         }
