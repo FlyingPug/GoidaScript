@@ -3,9 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Interpritator.Terminal;
 
 namespace Interpritator
 {
+
+    /*
+     * Класс Terminal нужен нам чисто для генерации ОПС, сам он в себе логики не несет
+     * Его наследники в свою очередь находятся в опс и каждый из них имеет в себе
+     * какую-то цель, которую при обработке самой ОПС мы будет выполнять. Очень важно,
+     * чтобы при выводе из генератора в опс, в опс находились только те терминалы, которые
+     * в себе что-то несут. 
+     * Чисто логически, не стоит наследоваться от Terminal, а сделать
+     * отдельный класс RPNCharacter, но тогда нужно будет переписывать генерацию ОПС
+     * */
+
     public class Terminal : Token
     {
         public enum TerminalType
@@ -16,7 +28,7 @@ namespace Interpritator
             Integer,
             Boolean,
             String,
-            Identificator,
+            Identifier,
             OpenBracket,
             OpenSquareBracket,
             OpenFigureBracket,
@@ -32,7 +44,8 @@ namespace Interpritator
             WhileStatement,
             ImbededFunction,
             Comma,
-            Line
+            Line,
+            BooleanValue
         }
 
         public Terminal(TerminalType _type)
@@ -40,7 +53,239 @@ namespace Interpritator
             this.Type = _type;
         }
 
-        public readonly string Value = "";
         public readonly TerminalType Type;
+    }
+
+    // терминалы, которые могут быть в ОПС (скобки, запятые и тд там напрочь не нужны)
+    public class RPNTerminal : Terminal
+    {
+        public RPNTerminal(TerminalType type) : base(type)
+        {
+        }
+    }
+
+    public class ValueTerminal<T> : RPNTerminal where T : IComparable
+    {
+        private readonly T _value;
+
+        public ValueTerminal(TerminalType type, T value) : base(type)
+        {
+            _value = value;
+        }
+
+        public T Value { get { return _value; } }
+    }
+
+    public class IdentifierTerminal : RPNTerminal
+    {
+        private readonly string _name;
+
+        public IdentifierTerminal(string value) : base(TerminalType.Identifier)
+        {
+            _name = value;
+        }
+
+        public string Name { get { return _name; } }
+    }
+
+    public abstract class OperationTerminal : RPNTerminal
+    {
+        public OperationTerminal(TerminalType type) : base(type)
+        {
+        }
+
+        public abstract void doOperation(Context context);
+    }
+
+    public class Program16 : OperationTerminal
+    {
+        public Program16() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program14 : OperationTerminal
+    {
+        public Program14() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class PlusTerminal : OperationTerminal
+    {
+        public PlusTerminal() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class MinusTerminal : OperationTerminal
+    {
+        public MinusTerminal() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class MultiplieTerminal : OperationTerminal
+    {
+        public MultiplieTerminal() : base(TerminalType.MultiplieOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class DivideTerminal : OperationTerminal
+    {
+        public DivideTerminal() : base(TerminalType.MultiplieOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class EqualTerminal : OperationTerminal
+    {
+        public EqualTerminal() : base(TerminalType.Equal)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class MoreTerminal : OperationTerminal
+    {
+        public MoreTerminal() : base(TerminalType.CompareOperaion)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class LessTerminal : OperationTerminal
+    {
+        public LessTerminal() : base(TerminalType.CompareOperaion)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class LessOrEqualTerminal : OperationTerminal
+    {
+        public LessOrEqualTerminal() : base(TerminalType.CompareOperaion)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class MoreOrEqualTerminal : OperationTerminal
+    {
+        public MoreOrEqualTerminal() : base(TerminalType.CompareOperaion)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class OrTerminal : OperationTerminal
+    {
+        public OrTerminal() : base(TerminalType.OrOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class AndTerminal : OperationTerminal
+    {
+        public AndTerminal() : base(TerminalType.AndOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class NotButTerminal : OperationTerminal
+    {
+        public NotButTerminal() : base(TerminalType.NotOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class PrintTerminal : OperationTerminal
+    {
+        public PrintTerminal() : base(TerminalType.ImbededFunction)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class InputTerminal : OperationTerminal
+    {
+        public InputTerminal() : base(TerminalType.ImbededFunction)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
     }
 }
