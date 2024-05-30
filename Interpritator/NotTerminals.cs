@@ -1339,7 +1339,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Compare(),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -1362,7 +1362,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Compare(),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -1382,7 +1382,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Compare(),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -1422,7 +1422,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Compare(),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -1445,7 +1445,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Compare(),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -1465,7 +1465,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Compare(),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -1496,14 +1496,14 @@ namespace Interpritator
                         new OperationStreak(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.CompareOperaion),
-                        new Terminal(Terminal.TerminalType.CompareOperaion)));
+                        new Compare(),
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.MultiplieOperation),
-                        new Terminal(Terminal.TerminalType.MultiplieOperation)));
+                        currentTerminal,
+                        currentTerminal));
                     break;
                 default:
                     generator.Push(new Tuple<Token, Terminal>(
