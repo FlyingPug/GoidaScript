@@ -33,6 +33,8 @@ namespace Interpritator
             OpenSquareBracket,
             OpenFigureBracket,
             CloseBracket,
+            CloseSquareBracket,
+            CloseFigureBracket,
             Equal,
             AdditionOperation,
             MultiplieOperation,
@@ -97,9 +99,81 @@ namespace Interpritator
         public abstract void doOperation(Context context);
     }
 
-    public class Program16 : OperationTerminal
+    public class Program1 : OperationTerminal
     {
-        public Program16() : base(TerminalType.AdditionOperation)
+        public Program1() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program3 : OperationTerminal
+    {
+        public Program3() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program4 : OperationTerminal
+    {
+        public Program4() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program5 : OperationTerminal
+    {
+        public Program5() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program9 : OperationTerminal
+    {
+        public Program9() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program12 : OperationTerminal
+    {
+        public Program12() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program13 : OperationTerminal
+    {
+        public Program13() : base(TerminalType.AdditionOperation)
         {
         }
 
@@ -112,6 +186,18 @@ namespace Interpritator
     public class Program14 : OperationTerminal
     {
         public Program14() : base(TerminalType.AdditionOperation)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+
+        }
+    }
+
+    public class Program16 : OperationTerminal
+    {
+        public Program16() : base(TerminalType.AdditionOperation)
         {
         }
 
