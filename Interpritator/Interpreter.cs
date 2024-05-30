@@ -8,7 +8,7 @@ namespace Interpritator
         {
             S.Analyse(input);
 
-            var terminalsList = LexemToTerminalMapper.ToTerminalStack(InputData.lexems);
+            var terminalsList = LexemToTerminalMapper.ToTerminalQueue(InputData.lexems);
 
             return RPNGenerator.GenerateOps(terminalsList);
         }
@@ -19,7 +19,7 @@ namespace Interpritator
         {
             List<RPNTerminal> rPNprogram = ConvertStringToRPN(input);
 
-            foreach (var terminal in rPNprogram) 
+            /*foreach (var terminal in rPNprogram) 
             {
                 if (terminal.GetType() == typeof(ValueTerminal))
                 {
@@ -33,7 +33,7 @@ namespace Interpritator
                 {
                     throw new TerminalEmptyException($"всё плохо {terminal.Type}");
                 }
-            }
+            }*/
         }
     }
 }

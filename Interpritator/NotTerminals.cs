@@ -38,10 +38,7 @@ namespace Interpritator
 
     public abstract class NotTerminal : Token
     {
-        public virtual List<(Token, Terminal)> Evaluate(Terminal currentTerminal)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal);
     }
 
     [Serializable]
@@ -66,12 +63,13 @@ namespace Interpritator
 
     public class Program : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
        
             switch (currentTerminal.Type)
             {
+                // good
                 case Terminal.TerminalType.OpenBracket:
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
@@ -92,7 +90,11 @@ namespace Interpritator
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
+                // 
                 case Terminal.TerminalType.IfStatement:
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new Terminal(Terminal.TerminalType.IfStatement),
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.OpenBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -104,24 +106,21 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionBlock(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Program1()));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program1(),
+                        new Terminal(Terminal.TerminalType.Else),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionBlock(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program3(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Program3()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.WhileStatement:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program4(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                       new Terminal(Terminal.TerminalType.WhileStatement),
+                       new Program4()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.OpenBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -255,7 +254,7 @@ namespace Interpritator
 
     internal class InstructionList : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -445,7 +444,7 @@ namespace Interpritator
 
     internal class ReadIdentifier : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -465,7 +464,7 @@ namespace Interpritator
 
     internal class InstructionID : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -526,7 +525,7 @@ namespace Interpritator
 
     internal class InstructionBlock : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -552,7 +551,7 @@ namespace Interpritator
 
     internal class Integer : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -599,7 +598,7 @@ namespace Interpritator
 
     internal class IntegerEqual : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -654,7 +653,7 @@ namespace Interpritator
 
     internal class IntegerOptions : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -680,7 +679,7 @@ namespace Interpritator
 
     internal class StringNT : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -706,7 +705,7 @@ namespace Interpritator
 
     internal class LogicalVariable : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -732,7 +731,7 @@ namespace Interpritator
 
     internal class Enumeration : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -755,7 +754,7 @@ namespace Interpritator
 
     internal class EnumerationNumber : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -781,7 +780,7 @@ namespace Interpritator
 
     internal class ExpressionNT : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -881,7 +880,7 @@ namespace Interpritator
     
     internal class OperationStreak : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -910,7 +909,7 @@ namespace Interpritator
 
     internal class MultiplieOperation : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -955,7 +954,7 @@ namespace Interpritator
 
     internal class MultiplieOperationStreak : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -984,7 +983,7 @@ namespace Interpritator
 
     internal class PriorityOpereation : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1020,7 +1019,7 @@ namespace Interpritator
 
     internal class LogicalExpression : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1141,7 +1140,7 @@ namespace Interpritator
 
     internal class LogicalExpressionStreak : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1170,7 +1169,7 @@ namespace Interpritator
 
     internal class PriorityLogicalExpression : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1276,7 +1275,7 @@ namespace Interpritator
 
     internal class PriorityLogicalExpressionStreak : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1305,7 +1304,7 @@ namespace Interpritator
 
     internal class HigherPriorityLogicalExpression : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1396,7 +1395,7 @@ namespace Interpritator
 
     internal class EvenHigherPriorityLogicalExpression : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1479,7 +1478,7 @@ namespace Interpritator
 
     internal class EvenHigherPriorityLogicalExpressionID : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1517,7 +1516,7 @@ namespace Interpritator
 
     internal class Compare : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1537,7 +1536,7 @@ namespace Interpritator
 
     internal class Arguments : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1617,7 +1616,7 @@ namespace Interpritator
 
     internal class ArgumentsList : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
@@ -1646,7 +1645,7 @@ namespace Interpritator
 
     internal class Z : NotTerminal
     {
-        public Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 

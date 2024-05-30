@@ -22,15 +22,15 @@ namespace Interpritator
     public class RPNGenerator
     {
         // input - вход из лексического анализатора
-        public static List<RPNTerminal> GenerateOps(Stack<Terminal> input)
+        public static List<RPNTerminal> GenerateOps(Queue<Terminal> input)
         {
             List<RPNTerminal> rPNTerminals = new List<RPNTerminal>();
             Stack<Token> store = new(); // магазин
             Stack<Terminal> generator = new();
 
-            store.Push(new Program());
             store.Push(new Z());
-
+            store.Push(new Program());
+            
             generator.Push(new EmptyTerminal());
             generator.Push(new EmptyTerminal());
 
@@ -40,15 +40,16 @@ namespace Interpritator
                 Token currentToken = store.Pop();
                 Terminal currentTerminal = generator.Pop();
 
-                if (currentTerminal.GetType() == typeof(RPNTerminal))
+                if (currentTerminal.GetType().IsSubclassOf(typeof(RPNTerminal)))
                 {
                     Logger.Log($"[Генератор ОПС] добавляется {currentTerminal.Type}");
                     rPNTerminals.Add((RPNTerminal)currentTerminal);
                 }
                 
-                if (currentToken.GetType() == typeof(NotTerminal))
+                if (currentToken.GetType().IsSubclassOf(typeof(NotTerminal)))
                 {
-                    List<(Token, Terminal)> toAdd = ((NotTerminal)currentToken).Evaluate(input.Peek());
+                    var term = input.Peek();
+                    Stack<Tuple<Token, Terminal>> toAdd = ((NotTerminal)currentToken).Evaluate(term);
 
                     if (toAdd.First().Item2.Type != Terminal.TerminalType.Lambda)
                     {
@@ -61,7 +62,7 @@ namespace Interpritator
                 }
                 else
                 {
-                    input.Pop();
+                    input.Dequeue();
                 }
             }
             Logger.Log($"[Генератор ОПС] генерация опс завершена");

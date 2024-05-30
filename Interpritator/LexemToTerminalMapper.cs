@@ -4,7 +4,7 @@ namespace Interpritator
 {
     public class UnidentifiedException : Exception
     {
-        public UnidentifiedException() 
+        public UnidentifiedException(string ex) : base(ex) 
         {
         }
     }
@@ -36,7 +36,8 @@ namespace Interpritator
         private static readonly Dictionary<string, Func<Terminal>> terminalTypes = new()
         {
             {"COMMA", () => new Terminal(Terminal.TerminalType.Comma)},
-            {"=", () => new EqualTerminal()},
+            {"EQUAL", () => new EqualTerminal()},
+            {"LINE_END", () =>new Terminal(Terminal.TerminalType.Semicolon)},
             {"+", () => new PlusTerminal()},
             {"-", () => new MinusTerminal()},
             {"(", () => new Terminal(Terminal.TerminalType.OpenBracket)},
@@ -83,18 +84,18 @@ namespace Interpritator
                 return createTerminal.Invoke();
             }
 
-            throw new UnidentifiedException();
+            throw new UnidentifiedException($"[Преобразование лексем] фигня какая-то {lexem.Item1} ");
         }
 
-        public static Stack<Terminal> ToTerminalStack(ICollection<(string, string)> lexems)
+        public static Queue<Terminal> ToTerminalQueue(ICollection<(string, string)> lexems)
         {
-            Stack<Terminal> terminals = new Stack<Terminal>();
+            Queue<Terminal> terminals = new Queue<Terminal>();
 
             Logger.Log($"[Лексема в терминал] начинается маппинг лексем в терминалы");
             foreach ((string, string) lexem in lexems)
             {
                 var terminal = ToTerminal(lexem);
-                terminals.Push(terminal);
+                terminals.Enqueue(terminal);
                 Logger.Log($"[Лексема в терминал] Лексема {lexem.Item1} со значением {lexem.Item2} преобразована в терминал {terminal.Type}");
             }
             Logger.Log($"[Лексема в терминал] маппинг лексем в терминалы закончен");

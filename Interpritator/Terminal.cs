@@ -31,6 +31,7 @@ namespace Interpritator
             Boolean,
             String,
             Identifier,
+            Semicolon,
             OpenBracket,
             OpenSquareBracket,
             OpenFigureBracket,
@@ -49,7 +50,8 @@ namespace Interpritator
             ImbededFunction,
             Comma,
             Line,
-            BooleanValue
+            BooleanValue,
+            Else
         }
 
         public Terminal(TerminalType _type)

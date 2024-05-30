@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Interpritator
+namespace Interpritator.Exceptions
 {
     [Serializable]
     internal class TerminalEmptyException : Exception
