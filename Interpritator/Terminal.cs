@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Interpritator.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using static Interpritator.Terminal;
@@ -58,6 +60,13 @@ namespace Interpritator
         public readonly TerminalType Type;
     }
 
+    public class EmptyTerminal : Terminal
+    {
+        public EmptyTerminal() : base(TerminalType.Empty)
+        {
+        }
+    }
+
     // терминалы, которые могут быть в ОПС (скобки, запятые и тд там напрочь не нужны)
     public class RPNTerminal : Terminal
     {
@@ -66,16 +75,16 @@ namespace Interpritator
         }
     }
 
-    public class ValueTerminal<T> : RPNTerminal where T : IComparable
+    public class ValueTerminal : RPNTerminal
     {
-        private readonly T _value;
+        private readonly IConvertible _value;
 
-        public ValueTerminal(TerminalType type, T value) : base(type)
+        public ValueTerminal(TerminalType type, IConvertible value) : base(type)
         {
             _value = value;
         }
 
-        public T Value { get { return _value; } }
+        public IConvertible Value { get { return _value; } }
     }
 
     public class IdentifierTerminal : RPNTerminal
@@ -263,7 +272,25 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value >= (int)val2.Value));
+        }
+    }
+
+    public class EqualBooleanTerminal : OperationTerminal
+    {
+        public EqualBooleanTerminal() : base(TerminalType.CompareOperaion)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
+
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value == (int)val2.Value));
         }
     }
 
@@ -275,7 +302,10 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value > (int)val2.Value));
         }
     }
 
@@ -287,7 +317,10 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value < (int)val2.Value));
         }
     }
 
@@ -299,7 +332,10 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value <= (int)val2.Value));
         }
     }
 
@@ -311,7 +347,10 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value >= (int)val2.Value));
         }
     }
 
@@ -323,7 +362,10 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (bool)val1.Value || (bool)val2.Value));
         }
     }
 
@@ -335,9 +377,14 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            var val1 = context.PopValue();
+            var val2 = context.PopValue();
+ 
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (bool)val1.Value && (bool)val2.Value));
         }
     }
+
+   
 
     public class NotButTerminal : OperationTerminal
     {
@@ -347,7 +394,9 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            var val = context.PopValue();
+            if (val.GetType() != typeof(bool)) throw new RuntimeException("not относится не к тому типу");
+            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, !(bool)val.Value));
         }
     }
 
@@ -355,11 +404,12 @@ namespace Interpritator
     {
         public PrintTerminal() : base(TerminalType.ImbededFunction)
         {
+
         }
 
         public override void doOperation(Context context)
         {
-
+            Console.WriteLine(context.PopValue());
         }
     }
 
@@ -371,7 +421,21 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            var val = Console.ReadLine();
 
+            if(int.TryParse(val, out int res))
+            {
+                context.AddValue(new ValueTerminal(TerminalType.Number, res));
+            }
+            else if(bool.TryParse(val, out bool boolRes))
+            {
+                context.AddValue(new ValueTerminal(TerminalType.BooleanValue, boolRes));
+            }
+            else
+            {
+                if (val == null) val = "";
+                context.AddValue(new ValueTerminal(TerminalType.Line, val));
+            }
         }
     }
 }

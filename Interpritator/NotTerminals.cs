@@ -38,7 +38,7 @@ namespace Interpritator
 
     public abstract class NotTerminal : Token
     {
-        public List<(Token, Terminal)> Evaluate(Terminal currentTerminal)
+        public virtual List<(Token, Terminal)> Evaluate(Terminal currentTerminal)
         {
             throw new NotImplementedException();
         }

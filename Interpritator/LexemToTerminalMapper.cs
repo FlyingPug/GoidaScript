@@ -9,7 +9,7 @@ namespace Interpritator
         }
     }
 
-    internal class LexemToTerminalMapper
+    public static class LexemToTerminalMapper
     {
         private static readonly Dictionary<string, Func<Terminal>> systemWords = new()
         {
@@ -50,13 +50,13 @@ namespace Interpritator
 
         private static readonly Dictionary<string, Func<string, Terminal>> terminalWithValue = new()
         {
-            {"STRING", (value) => new ValueTerminal<string>(Terminal.TerminalType.String, value)},
-            {"NUMBER", (value) => new ValueTerminal<int>(Terminal.TerminalType.Number, int.Parse(value))},
-            {"BOOLEAN", (value) => new ValueTerminal<bool>(Terminal.TerminalType.BooleanValue, bool.Parse(value))},
+            {"STRING", (value) => new ValueTerminal(Terminal.TerminalType.String, value)},
+            {"NUMBER", (value) => new ValueTerminal(Terminal.TerminalType.Number, int.Parse(value))},
+            {"BOOLEAN", (value) => new ValueTerminal(Terminal.TerminalType.BooleanValue, bool.Parse(value))},
             {"IDENTIFIER", (value) => new IdentifierTerminal(value) },
         };
 
-        public Terminal ToTerminal((string, string) lexem)
+        public static Terminal ToTerminal((string, string) lexem)
         {
             if (terminalTypes.TryGetValue(lexem.Item1, out var createTerminal))
             {
@@ -86,14 +86,18 @@ namespace Interpritator
             throw new UnidentifiedException();
         }
 
-        public List<Terminal> ToTerminalList(ICollection<(string, string)> lexems)
+        public static Stack<Terminal> ToTerminalStack(ICollection<(string, string)> lexems)
         {
-            List<Terminal> terminals = new List<Terminal>();
+            Stack<Terminal> terminals = new Stack<Terminal>();
 
+            Logger.Log($"[Лексема в терминал] начинается маппинг лексем в терминалы");
             foreach ((string, string) lexem in lexems)
             {
-                terminals.Add(ToTerminal(lexem));
+                var terminal = ToTerminal(lexem);
+                terminals.Push(terminal);
+                Logger.Log($"[Лексема в терминал] Лексема {lexem.Item1} со значением {lexem.Item2} преобразована в терминал {terminal.Type}");
             }
+            Logger.Log($"[Лексема в терминал] маппинг лексем в терминалы закончен");
 
             return terminals;
         }
