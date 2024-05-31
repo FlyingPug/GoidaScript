@@ -105,14 +105,14 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.CloseBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new InstructionBlock(),
-                        new Program1()));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Else),
+                        new InstructionBlockIf(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new InstructionBlock(),
-                        new Program3()));
+                        new Terminal(Terminal.TerminalType.Else),
+                        new Program2()));
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new InstructionBlockIf(),
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -131,13 +131,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.CloseBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program1(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new InstructionBlock(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program5(),
+                        new InstructionBlockWhile(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
@@ -162,11 +156,8 @@ namespace Interpritator
                     break;
                 case Terminal.TerminalType.Integer:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program16(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program9(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Integer),
+                        new Program9()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ReadIdentifier(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -174,16 +165,16 @@ namespace Interpritator
                         new Integer(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
+                        new Terminal(Terminal.TerminalType.Empty),
+                        new Program14()));
+                    generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.String:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program16(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program12(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.String),
+                        new Program12()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ReadIdentifier(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -191,19 +182,16 @@ namespace Interpritator
                         new StringNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Empty),
+                        new Program14()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));                   
                     break;
                 case Terminal.TerminalType.Boolean:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program16(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program13(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Boolean),
+                        new Program13()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ReadIdentifier(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -211,8 +199,8 @@ namespace Interpritator
                         new LogicalVariable(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Empty),
+                        new Program14()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));                   
@@ -258,12 +246,13 @@ namespace Interpritator
         {
             Stack<Tuple<Token, Terminal>> generator = new();
 
-            switch(currentTerminal.Type)
+            switch (currentTerminal.Type)
             {
+                // good
                 case Terminal.TerminalType.OpenBracket:
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
-                        currentTerminal));
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -280,7 +269,11 @@ namespace Interpritator
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
+                // 
                 case Terminal.TerminalType.IfStatement:
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new Terminal(Terminal.TerminalType.IfStatement),
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.OpenBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -291,16 +284,13 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.CloseBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new InstructionBlock(),
+                        new InstructionBlockIf(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program1(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Else),
+                        new Program2()));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new InstructionBlock(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program3(),
+                        new InstructionBlockIf(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
@@ -308,8 +298,8 @@ namespace Interpritator
                     break;
                 case Terminal.TerminalType.WhileStatement:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program4(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                       new Terminal(Terminal.TerminalType.WhileStatement),
+                       new Program4()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.OpenBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -320,13 +310,7 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.CloseBracket),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program1(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new InstructionBlock(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program5(),
+                        new InstructionBlockWhile(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
@@ -351,11 +335,8 @@ namespace Interpritator
                     break;
                 case Terminal.TerminalType.Integer:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program16(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program9(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Integer),
+                        new Program9()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ReadIdentifier(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -363,16 +344,16 @@ namespace Interpritator
                         new Integer(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
+                        new Terminal(Terminal.TerminalType.Empty),
+                        new Program14()));
+                    generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.String:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program16(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program12(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.String),
+                        new Program12()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ReadIdentifier(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -380,19 +361,16 @@ namespace Interpritator
                         new StringNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Empty),
+                        new Program14()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.Boolean:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program16(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program13(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Boolean),
+                        new Program13()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ReadIdentifier(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -400,8 +378,8 @@ namespace Interpritator
                         new LogicalVariable(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                        new Terminal(Terminal.TerminalType.Empty),
+                        new Program14()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
@@ -436,7 +414,6 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Lambda),
                         new Terminal(Terminal.TerminalType.Lambda)));
                     break;
-
             }
             return generator;
         }
@@ -523,7 +500,33 @@ namespace Interpritator
         }
     }
 
-    internal class InstructionBlock : NotTerminal
+    internal class InstructionBlockIf : NotTerminal
+    {
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        {
+            Stack<Tuple<Token, Terminal>> generator = new();
+
+            switch (currentTerminal.Type)
+            {
+                case Terminal.TerminalType.OpenFigureBracket:
+                    generator.Push(new Tuple<Token, Terminal>(
+                       currentTerminal,
+                       new Program1()));
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new InstructionList(),
+                        new Terminal(Terminal.TerminalType.Empty)));
+                    generator.Push(new Tuple<Token, Terminal>(
+                       new Terminal(Terminal.TerminalType.CloseFigureBracket),
+                       new Terminal(Terminal.TerminalType.Empty)));
+                    break;            
+                default:
+                    throw new NotImplementedException();
+            }
+            return generator;
+        }
+    }
+
+    internal class InstructionBlockElse : NotTerminal
     {
         public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
         {
@@ -540,8 +543,34 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                        new Terminal(Terminal.TerminalType.CloseFigureBracket),
-                       new Terminal(Terminal.TerminalType.Empty)));
-                    break;            
+                       new Program3()));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return generator;
+        }
+    }
+
+    internal class InstructionBlockWhile : NotTerminal
+    {
+        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
+        {
+            Stack<Tuple<Token, Terminal>> generator = new();
+
+            switch (currentTerminal.Type)
+            {
+                case Terminal.TerminalType.OpenFigureBracket:
+                    generator.Push(new Tuple<Token, Terminal>(
+                       currentTerminal,
+                       new Program1()));
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new InstructionList(),
+                        new Terminal(Terminal.TerminalType.Empty)));
+                    generator.Push(new Tuple<Token, Terminal>(
+                       new Terminal(Terminal.TerminalType.CloseFigureBracket),
+                       new Program5()));
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -559,11 +588,8 @@ namespace Interpritator
             {
                 case Terminal.TerminalType.OpenSquareBracket:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Program11(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
-                        currentTerminal));
+                        new Program11()));
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.Number),
                         new Terminal(Terminal.TerminalType.Number)));
@@ -573,17 +599,14 @@ namespace Interpritator
                     generator.Push(new Tuple<Token, Terminal>(
                         new IntegerOptions(),
                         new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.Equal:
                     generator.Push(new Tuple<Token, Terminal>(
-                        new IntegerEqual(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
-                        currentTerminal));
+                        new Program10()));
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new ExpressionNT(),
+                        new Terminal(Terminal.TerminalType.Empty)));      
                     break;
                 default:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -594,61 +617,6 @@ namespace Interpritator
             return generator;
         }
 
-    }
-
-    internal class IntegerEqual : NotTerminal
-    {
-        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
-        {
-            Stack<Tuple<Token, Terminal>> generator = new();
-
-            switch (currentTerminal.Type)
-            {               
-                case Terminal.TerminalType.MultiplieOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program10(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new PriorityOpereation(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new MultiplieOperationStreak(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new OperationStreak(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.MultiplieOperation),
-                        new Terminal(Terminal.TerminalType.MultiplieOperation)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    break;
-                case Terminal.TerminalType.OpenSquareBracket:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program11(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        currentTerminal,
-                        currentTerminal));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Z(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.CloseFigureBracket),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Program14(),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    break;
-                default:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Lambda),
-                        new Terminal(Terminal.TerminalType.Lambda)));
-                    break;
-            }
-            return generator;
-        }
     }
 
     internal class IntegerOptions : NotTerminal
@@ -661,16 +629,22 @@ namespace Interpritator
             {
                 case Terminal.TerminalType.Equal:
                     generator.Push(new Tuple<Token, Terminal>(
+                        new Terminal(Terminal.TerminalType.OpenFigureBracket),
+                        new Terminal(Terminal.TerminalType.Empty)));
+                    generator.Push(new Tuple<Token, Terminal>(
                         new Enumeration(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Equal),
-                        new Terminal(Terminal.TerminalType.Equal)));
-                    break;
-                default:
+                        new Terminal(Terminal.TerminalType.CloseFigureBracket),
+                        new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
                         currentTerminal));
+                    break;
+                default:
+                    generator.Push(new Tuple<Token, Terminal>(
+                        new Terminal(Terminal.TerminalType.Lambda),
+                        new Terminal(Terminal.TerminalType.Lambda)));
                     break;
             }
             return generator;
@@ -1642,18 +1616,4 @@ namespace Interpritator
             return generator;
         }
     }     
-
-    internal class Z : NotTerminal
-    {
-        public override Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal)
-        {
-            Stack<Tuple<Token, Terminal>> generator = new();
-
-            generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Lambda),
-                        new Terminal(Terminal.TerminalType.Lambda)));
-
-            return generator;
-        }
-    }
 }
