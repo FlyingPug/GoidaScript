@@ -50,6 +50,9 @@ namespace Анализатор_лексем
                     case "<;>":
                         END("LINE_END");
                         break;
+                    case "<\n>":
+                        InputData.Pointer++;
+                        break;
 
                     case "<c>":
                         END($"{InputData.Current}");

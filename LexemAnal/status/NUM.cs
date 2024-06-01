@@ -40,7 +40,7 @@ namespace Анализатор_лексем
                 case "<'>": throw new Exception("Недопустимый символ");
                 case "<,>": 
                 case "<;>":  
-                case "<с>": 
+                case "<c>": 
                 case ">,<":  
                 case "<=>":  END_minus(); break;
                 default:     throw new Exception("Недопустимый символ");

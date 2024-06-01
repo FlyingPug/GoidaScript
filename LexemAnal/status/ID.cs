@@ -37,8 +37,8 @@ namespace Анализатор_лексем
 
             if (InputData.Pointer >= InputData.Data.Length) throw new Exception($"неожиданное окончание файла при чтении name");
 
-
-            switch (InputData.CurentCharGroup())
+            var currentGroup = InputData.CurentCharGroup();
+            switch (currentGroup)
             {
                 case "<ц>": Analyse(); break;
                 case "<б>": Analyse(); break;
@@ -46,10 +46,10 @@ namespace Анализатор_лексем
                 case "<'>": throw new Exception("Недопустимый символ");
                 case "<,>": END_minus(); break;
                 case "<;>": END_minus(); break;
-                case "<с>": END_minus(); break;
+                case "<c>": END_minus(); break;
                 case ">,<": END_minus(); break;
                 case "<=>": END_minus(); break;
-                default: throw new Exception("Недопустимый символ");
+                default: throw new Exception($"Недопустимый символ {currentGroup}");
             }
         }
     }

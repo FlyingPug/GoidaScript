@@ -42,6 +42,11 @@ namespace Interpritator
             AdditionOperation,
             MultiplieOperation,
             CompareOperaion,
+            MoreCompareOperation,
+            LessCompareOperation,
+            MoreEqualCompareOperation,
+            LessEqualCompareOperation,
+            EqualCompareOperation,
             OrOperation,
             AndOperation,
             NotOperation,
@@ -51,6 +56,7 @@ namespace Interpritator
             Comma,
             Line,
             BooleanValue,
+            Program,
             Else
         }
 
@@ -59,7 +65,7 @@ namespace Interpritator
             this.Type = _type;
         }
 
-        public readonly TerminalType Type;
+        public TerminalType Type;
     }
 
     public class EmptyTerminal : Terminal
@@ -112,7 +118,7 @@ namespace Interpritator
 
     public class Program1 : OperationTerminal
     {
-        public Program1() : base(TerminalType.AdditionOperation)
+        public Program1() : base(TerminalType.Program)
         {
         }
 
@@ -124,7 +130,7 @@ namespace Interpritator
 
     public class Program2 : OperationTerminal
     {
-        public Program2() : base(TerminalType.AdditionOperation)
+        public Program2() : base(TerminalType.Program)
         {
         }
 
@@ -136,7 +142,7 @@ namespace Interpritator
 
     public class Program3 : OperationTerminal
     {
-        public Program3() : base(TerminalType.AdditionOperation)
+        public Program3() : base(TerminalType.Program)
         {
         }
 
@@ -148,7 +154,7 @@ namespace Interpritator
 
     public class Program4 : OperationTerminal
     {
-        public Program4() : base(TerminalType.AdditionOperation)
+        public Program4() : base(TerminalType.Program)
         {
         }
 
@@ -160,7 +166,7 @@ namespace Interpritator
 
     public class Program5 : OperationTerminal
     {
-        public Program5() : base(TerminalType.AdditionOperation)
+        public Program5() : base(TerminalType.Program)
         {
         }
 
@@ -172,7 +178,7 @@ namespace Interpritator
 
     public class Program9 : OperationTerminal
     {
-        public Program9() : base(TerminalType.AdditionOperation)
+        public Program9() : base(TerminalType.Program)
         {
         }
 
@@ -184,7 +190,7 @@ namespace Interpritator
 
     public class Program10 : OperationTerminal
     {
-        public Program10() : base(TerminalType.AdditionOperation)
+        public Program10() : base(TerminalType.Program)
         {
         }
 
@@ -196,7 +202,7 @@ namespace Interpritator
 
     public class Program11 : OperationTerminal
     {
-        public Program11() : base(TerminalType.AdditionOperation)
+        public Program11() : base(TerminalType.Program)
         {
         }
 
@@ -208,7 +214,7 @@ namespace Interpritator
 
     public class Program12 : OperationTerminal
     {
-        public Program12() : base(TerminalType.AdditionOperation)
+        public Program12() : base(TerminalType.Program)
         {
         }
 
@@ -220,7 +226,7 @@ namespace Interpritator
 
     public class Program13 : OperationTerminal
     {
-        public Program13() : base(TerminalType.AdditionOperation)
+        public Program13() : base(TerminalType.Program)
         {
         }
 
@@ -232,7 +238,7 @@ namespace Interpritator
 
     public class Program14 : OperationTerminal
     {
-        public Program14() : base(TerminalType.AdditionOperation)
+        public Program14() : base(TerminalType.Program)
         {
         }
 
@@ -244,7 +250,7 @@ namespace Interpritator
 
     public class Program16 : OperationTerminal
     {
-        public Program16() : base(TerminalType.AdditionOperation)
+        public Program16() : base(TerminalType.Program)
         {
         }
 
@@ -317,9 +323,10 @@ namespace Interpritator
         }
     }
 
-    public class EqualBooleanTerminal : OperationTerminal
+    // какой же это костыль, но я уже не знаю что делать
+    public class CompareTerminal : OperationTerminal
     {
-        public EqualBooleanTerminal() : base(TerminalType.CompareOperaion)
+        public CompareTerminal(TerminalType terminalType) : base(terminalType)
         {
         }
 
@@ -327,68 +334,27 @@ namespace Interpritator
         {
             var val1 = context.PopValue();
             var val2 = context.PopValue();
-
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value == (int)val2.Value));
-        }
-    }
-
-    public class MoreTerminal : OperationTerminal
-    {
-        public MoreTerminal() : base(TerminalType.CompareOperaion)
-        {
-        }
-
-        public override void doOperation(Context context)
-        {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
-
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value > (int)val2.Value));
-        }
-    }
-
-    public class LessTerminal : OperationTerminal
-    {
-        public LessTerminal() : base(TerminalType.CompareOperaion)
-        {
-        }
-
-        public override void doOperation(Context context)
-        {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
-
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value < (int)val2.Value));
-        }
-    }
-
-    public class LessOrEqualTerminal : OperationTerminal
-    {
-        public LessOrEqualTerminal() : base(TerminalType.CompareOperaion)
-        {
-        }
-
-        public override void doOperation(Context context)
-        {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
-
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value <= (int)val2.Value));
-        }
-    }
-
-    public class MoreOrEqualTerminal : OperationTerminal
-    {
-        public MoreOrEqualTerminal() : base(TerminalType.CompareOperaion)
-        {
-        }
-
-        public override void doOperation(Context context)
-        {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
-
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value >= (int)val2.Value));
+            
+            switch(this.Type)
+            {
+                case TerminalType.MoreCompareOperation:
+                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value > (int)val2.Value));
+                    break;
+                case TerminalType.LessCompareOperation:
+                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value < (int)val2.Value));
+                    break;
+                case TerminalType.LessEqualCompareOperation:
+                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value <= (int)val2.Value));
+                    break;
+                case TerminalType.MoreEqualCompareOperation:
+                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value >= (int)val2.Value));
+                    break;
+                case TerminalType.EqualCompareOperation:
+                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value == (int)val2.Value));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 

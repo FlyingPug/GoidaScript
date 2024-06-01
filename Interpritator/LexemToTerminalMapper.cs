@@ -27,10 +27,11 @@ namespace Interpritator
 
         private static readonly Dictionary<string, Func<Terminal>> comparisons = new()
         {
-            {">=", () => new MoreOrEqualTerminal()},
-            {"<=", () => new LessOrEqualTerminal()},
-            {">", () => new LessTerminal()},
-            {"<", () => new MoreTerminal()}
+            {">=", () => new CompareTerminal(Terminal.TerminalType.MoreEqualCompareOperation)},
+            {"<=", () =>new CompareTerminal(Terminal.TerminalType.LessEqualCompareOperation)},
+            {">", () => new CompareTerminal(Terminal.TerminalType.LessCompareOperation)},
+            {"<", () => new CompareTerminal(Terminal.TerminalType.MoreCompareOperation)},
+            {"==", () => new CompareTerminal(Terminal.TerminalType.EqualCompareOperation)}
         };
 
         private static readonly Dictionary<string, Func<Terminal>> terminalTypes = new()
@@ -40,6 +41,8 @@ namespace Interpritator
             {"LINE_END", () =>new Terminal(Terminal.TerminalType.Semicolon)},
             {"+", () => new PlusTerminal()},
             {"-", () => new MinusTerminal()},
+            {"*", () => new MultiplieTerminal()},
+            {"/", () => new DivideTerminal()},
             {"(", () => new Terminal(Terminal.TerminalType.OpenBracket)},
             {"[", () => new Terminal(Terminal.TerminalType.OpenSquareBracket)},
             {"{", () => new Terminal(Terminal.TerminalType.OpenFigureBracket)},

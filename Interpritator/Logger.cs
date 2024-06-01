@@ -8,11 +8,11 @@ namespace Interpritator
 {
     public static class Logger
     {
-        public static bool Enabled { get; set; } = true;
+        public static int LogLevel { get; set; } = 3;
 
-        public static void Log(string output)
+        public static void Log(string output, int logLevel = 1)
         {
-            if (Enabled)
+            if (logLevel <= LogLevel)
             {
                 Console.WriteLine($"[Log - {DateTime.Now.ToString("HH:mm:ss tt")}]{output}");
             }

@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Анализатор лексем">
-      <HintPath>..\..\..\Анализатор лексем\Анализатор лексем\bin\Debug\net6.0\Анализатор лексем.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\LexemAnal\Анализатор лексем.csproj" />
   </ItemGroup>
 
 </Project>
