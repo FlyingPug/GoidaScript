@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interpritator.output;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,10 @@ namespace Interpritator
         public static void Main()
         {
             string input = Console.ReadLine();
+            
+            ConsoleOutput output = new ConsoleOutput();
 
-            Interpreter interpreter = new Interpreter();
+            Interpreter interpreter = new Interpreter(output);
 
             interpreter.Interpret(input);
 

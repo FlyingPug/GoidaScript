@@ -23,10 +23,11 @@ namespace Анализатор_лексем
             if (Pointer >= Data.Length) throw new Exception("Внезапное окончание файла");
             else if(Current >= '0' && Current <= '9')
                 return "<ц>";
-            else if (Current >= 'a' && Current <= 'z' || Current >= 'A' && Current <= 'Z' || Current == '_')
+            else if (Current >= 'a' && Current <= 'z' || Current >= 'A' && Current <= 'Z' || Current == '_'  || Char.IsLetter(Current))
                 return "<б>";
             else if (Current == ' ') return "< >";
             else if (Current == '\n') return "<\n>";
+            else if (Current == '\r') return "< >";
             else if (Current == '\'') return "<'>";
             else if (Current == ',') return "<,>";
             else if (Current == ';') return "<;>";

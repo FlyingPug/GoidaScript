@@ -95,23 +95,14 @@ namespace Interpritator
         public IConvertible Value { get { return _value; } }
     }
 
-    public class IdentifierTerminal : RPNTerminal
+    public class IdentifierTerminal : ValueTerminal
     {
-        private readonly string _name;
-
-        public IdentifierTerminal(string value) : base(TerminalType.Identifier)
-        {
-            _name = value;
-        }
-
-        public string Name { get { return _name; } }
+        public IdentifierTerminal(string value) : base(TerminalType.Identifier, value) {}
     }
 
     public abstract class OperationTerminal : RPNTerminal
     {
-        public OperationTerminal(TerminalType type) : base(type)
-        {
-        }
+        public OperationTerminal(TerminalType type) : base(type) {}
 
         public abstract void doOperation(Context context);
     }
@@ -124,7 +115,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.EnterArea();
         }
     }
 
@@ -136,7 +127,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartElse();
         }
     }
 
@@ -148,7 +139,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.CloseElse();
         }
     }
 
@@ -160,7 +151,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartWhile();
         }
     }
 
@@ -172,7 +163,34 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            context.CloseWhile();
+        }
+    }
 
+
+    public class Program6 : OperationTerminal
+    {
+        public Program6() : base(TerminalType.Program)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+            context.PushValueFromArrayToStack();
+        }
+    }
+
+    
+
+    public class Program7 : OperationTerminal
+    {
+        public Program7() : base(TerminalType.Program)
+        {
+        }
+
+        public override void doOperation(Context context)
+        {
+            context.StartSaveArrayValue();
         }
     }
 
@@ -184,7 +202,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartSaveIdentf();
         }
     }
 
@@ -196,7 +214,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartSaveValue();
         }
     }
 
@@ -208,7 +226,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartSaveArray();
         }
     }
 
@@ -220,7 +238,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartSaveIdentf();
         }
     }
 
@@ -232,7 +250,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.StartSaveIdentf();
         }
     }
 
@@ -244,7 +262,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.FinishSaveVariable();
         }
     }
 
@@ -256,7 +274,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-
+            context.PushValueFromArrayToStack();
         }
     }
 
@@ -268,6 +286,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            context.PlusOperation();
 
         }
     }
@@ -280,6 +299,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            context.MinusOperation();
 
         }
     }
@@ -292,6 +312,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            context.MultiplieOperation();
 
         }
     }
@@ -304,10 +325,12 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
+            context.DivideOperation();
 
         }
     }
 
+    // это присваивание ебалай
     public class EqualTerminal : OperationTerminal
     {
         public EqualTerminal() : base(TerminalType.Equal)
@@ -316,10 +339,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
-
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value >= (int)val2.Value));
+            context.AssignmentOperation();
         }
     }
 
@@ -332,29 +352,8 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
-            
-            switch(this.Type)
-            {
-                case TerminalType.MoreCompareOperation:
-                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value > (int)val2.Value));
-                    break;
-                case TerminalType.LessCompareOperation:
-                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value < (int)val2.Value));
-                    break;
-                case TerminalType.LessEqualCompareOperation:
-                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value <= (int)val2.Value));
-                    break;
-                case TerminalType.MoreEqualCompareOperation:
-                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value >= (int)val2.Value));
-                    break;
-                case TerminalType.EqualCompareOperation:
-                    context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (int)val1.Value == (int)val2.Value));
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
+            context.CompareOperation(this.Type);
+
         }
     }
 
@@ -366,10 +365,8 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
+            context.OrOperation();
 
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (bool)val1.Value || (bool)val2.Value));
         }
     }
 
@@ -381,10 +378,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            var val1 = context.PopValue();
-            var val2 = context.PopValue();
- 
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, (bool)val1.Value && (bool)val2.Value));
+            context.AndOperation();
         }
     }
 
@@ -398,9 +392,8 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            var val = context.PopValue();
-            if (val.GetType() != typeof(bool)) throw new RuntimeException("not относится не к тому типу");
-            context.AddValue(new ValueTerminal(TerminalType.BooleanValue, !(bool)val.Value));
+            context.NotOperation();
+
         }
     }
 
@@ -413,7 +406,7 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            Console.WriteLine(context.PopValue());
+            context.PrintOperation();
         }
     }
 
@@ -425,21 +418,8 @@ namespace Interpritator
 
         public override void doOperation(Context context)
         {
-            var val = Console.ReadLine();
-
-            if(int.TryParse(val, out int res))
-            {
-                context.AddValue(new ValueTerminal(TerminalType.Number, res));
-            }
-            else if(bool.TryParse(val, out bool boolRes))
-            {
-                context.AddValue(new ValueTerminal(TerminalType.BooleanValue, boolRes));
-            }
-            else
-            {
-                if (val == null) val = "";
-                context.AddValue(new ValueTerminal(TerminalType.Line, val));
-            }
+            context.WriteOperation();
+            
         }
     }
 }

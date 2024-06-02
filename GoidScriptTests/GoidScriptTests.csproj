@@ -26,4 +26,20 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="GoidaScriptSort.GS">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GoidaScriptSort.txt</LastGenOutput>
+    </None>
+    <None Update="GoidaScriptSort.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GoidaScriptSort.GS</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
 </Project>

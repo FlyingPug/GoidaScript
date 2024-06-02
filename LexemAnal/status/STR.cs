@@ -12,8 +12,7 @@ namespace Анализатор_лексем
         private static string _string = "";
         private static void END()
         {
-            _string += InputData.Current;
-            InputData.lexems.Add(("STRING", _string));
+            InputData.lexems.Add(("STRING", _string.Substring(1)));
             InputData.Pointer++;
             //Console.WriteLine($"Распознан строковый литерал: {_string}';");
             _string = "";

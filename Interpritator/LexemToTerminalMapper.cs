@@ -20,6 +20,7 @@ namespace Interpritator
             {"print", () => new PrintTerminal()},
             {"input", () => new InputTerminal()},
             {"if", () => new Terminal(Terminal.TerminalType.IfStatement)},
+            {"else", () => new Terminal(Terminal.TerminalType.Else)},
             {"not", () => new NotButTerminal()},
             {"or", () => new OrTerminal()},
             {"and", () => new AndTerminal()}
@@ -54,7 +55,7 @@ namespace Interpritator
 
         private static readonly Dictionary<string, Func<string, Terminal>> terminalWithValue = new()
         {
-            {"STRING", (value) => new ValueTerminal(Terminal.TerminalType.String, value)},
+            {"STRING", (value) => new ValueTerminal(Terminal.TerminalType.Line, value)},
             {"NUMBER", (value) => new ValueTerminal(Terminal.TerminalType.Number, int.Parse(value))},
             {"BOOLEAN", (value) => new ValueTerminal(Terminal.TerminalType.BooleanValue, bool.Parse(value))},
             {"IDENTIFIER", (value) => new IdentifierTerminal(value) },

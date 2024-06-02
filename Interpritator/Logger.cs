@@ -8,7 +8,7 @@ namespace Interpritator
 {
     public static class Logger
     {
-        public static int LogLevel { get; set; } = 3;
+        public static int LogLevel { get; set; } = 1;
 
         public static void Log(string output, int logLevel = 1)
         {

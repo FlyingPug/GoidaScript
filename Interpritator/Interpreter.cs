@@ -1,9 +1,18 @@
-﻿using Анализатор_лексем;
+﻿using Interpritator.Exceptions;
+using Interpritator.output;
+using Анализатор_лексем;
 
 namespace Interpritator
 {
-    internal class Interpreter
+    public class Interpreter
     {
+        private Context _context;
+
+        public Interpreter(IOutput output) 
+        {
+            _context = new(output);
+        }    
+
         private static List<RPNTerminal> ConvertStringToRPN(string input)
         {
             S.Analyse(input);
@@ -13,27 +22,31 @@ namespace Interpritator
             return RPNGenerator.GenerateOps(terminalsList);
         }
 
-        private Context context = new();
-
         public void Interpret(string input)
         {
             List<RPNTerminal> rPNprogram = ConvertStringToRPN(input);
 
-            /*foreach (var terminal in rPNprogram) 
+            while (_context.CurrentStep < rPNprogram.Count)
             {
-                if (terminal.GetType() == typeof(ValueTerminal))
+                var currentTerminal = rPNprogram[_context.CurrentStep];
+
+                Logger.Log($"[Интерпритатор] текущий обрабатываемый символ: {currentTerminal}", 2);
+
+                if (currentTerminal.GetType() == (typeof(ValueTerminal)) || currentTerminal.GetType().IsSubclassOf(typeof(ValueTerminal)))
                 {
-                    context.AddValue((ValueTerminal)terminal);
+                    _context.AddValue((ValueTerminal)currentTerminal);
                 }
-                else if (terminal.GetType() == typeof(OperationTerminal))
+                else if (currentTerminal.GetType().IsSubclassOf(typeof(OperationTerminal)))
                 {
-                    ((OperationTerminal)terminal).doOperation(context);
+                    ((OperationTerminal)currentTerminal).doOperation(_context);
                 }
                 else
                 {
-                    throw new TerminalEmptyException($"всё плохо {terminal.Type}");
+                    throw new TerminalEmptyException($"всё плохо {currentTerminal.Type}");
                 }
-            }*/
+
+                _context.NextStep();
+            }
         }
     }
 }
