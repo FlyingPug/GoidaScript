@@ -148,7 +148,7 @@ namespace Interpritator
         {
             // 2 
             var mode = _mods.Peek();
-            if (mode == Mode.IGNORE && (openCount) > 0) { return; }
+            if (mode == Mode.IGNORE && (openCount - 1) > 0) { return; }
 
             
             if (mode == Mode.IGNORE)
