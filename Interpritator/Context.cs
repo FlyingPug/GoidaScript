@@ -1,6 +1,8 @@
 ﻿
 using Interpritator.Exceptions;
 using Interpritator.output;
+using System.Text;
+using Анализатор_лексем;
 using static Interpritator.Terminal;
 
 namespace Interpritator
@@ -69,11 +71,10 @@ namespace Interpritator
             }
         }
 
-        private ValueTerminal PopValue()
+        private ValueTerminal GetValue(ValueTerminal value)
         {
-            var value = _operands.Pop();
 
-            if (value.GetType() == typeof(IdentifierTerminal)) 
+            if (value.GetType() == typeof(IdentifierTerminal))
             {
                 if (!_variables.ContainsKey(value.Value.ToString() ?? "")) throw new VariableDoesntExists();
 
@@ -83,11 +84,23 @@ namespace Interpritator
             return value;
         }
 
+        private ValueTerminal PopValue()
+        {
+            var value = _operands.Pop();
+            return GetValue(value);
+        }
+
+        private ValueTerminal PeekValue()
+        {
+            var value = _operands.Peek();
+            return GetValue(value);
+        }
+
         public void AssignmentOperation()
         {
             if (_mods.Peek() == Mode.IGNORE || _mods.Peek() == Mode.SAVE_ARRAY) return;
 
-            var value = _operands.Pop();
+            var value = this.PopValue();
 
             if (_mods.Peek() == Mode.SAVE_ARRAY_VAL)
             {
@@ -107,10 +120,7 @@ namespace Interpritator
 
         public void StartWhile()
         {
-            if (_mods.Peek() == Mode.IGNORE && (openCount - 1) != 0)
-            {
-                openCount++; return;
-            }
+            if (_mods.Peek() == Mode.IGNORE && (openCount) > 0) { return; }
             // 4
             _marks.Push(_currentStep);
             _mods.Push(Mode.WHILE);
@@ -118,9 +128,9 @@ namespace Interpritator
 
         public void EnterArea()
         {
-            if (_mods.Peek() == Mode.IGNORE && (openCount - 1) != 0) { openCount++; return; }
+            if (_mods.Peek() == Mode.IGNORE && (openCount) > 0) { openCount++; return; }
             // 1
-            var cond = _operands.Peek();
+            var cond = PeekValue();
             
             if (!(bool)cond.Value)
             {
@@ -129,23 +139,33 @@ namespace Interpritator
             }
             else
             {
+                _mods.Push(Mode.IF);
+                openCount = 0;
             }
         }
 
         public void StartElse()
         {
             // 2 
-            if (_mods.Peek() == Mode.IGNORE && (openCount - 1) != 0) { return; }
-
             var mode = _mods.Peek();
+            if (mode == Mode.IGNORE && (openCount) > 0) { return; }
+
+            
             if (mode == Mode.IGNORE)
             {
                 _mods.Pop();
+                openCount = 0;
+                _mods.Push(Mode.IF);
+            }
+            else if(mode == Mode.IF)
+            {
+                openCount = 1;
+                _mods.Pop();
+                _mods.Push(Mode.IGNORE);
             }
             else
             {
-                openCount = 1;
-                _mods.Push(Mode.IGNORE);
+                throw new Exception("temop");
             }
         }
 
@@ -153,7 +173,7 @@ namespace Interpritator
         {
             // 3
             openCount--;
-            if (_mods.Peek() == Mode.IGNORE && (openCount - 1) != 0) { return; }
+            if (_mods.Peek() == Mode.IGNORE && (openCount) > 0) {  return; }
 
             _mods.Pop();
         }
@@ -162,19 +182,29 @@ namespace Interpritator
         public void CloseWhile()
         {
             openCount--;
-            if (_mods.Peek() == Mode.IGNORE && openCount != 0) { return; }
+            if (_mods.Peek() == Mode.IGNORE && (openCount) > 0) { return; }
 
-            var mark = _marks.Peek();
             var mod = _mods.Pop();
+            var mod1 = _mods.Pop();
+            var mark = _marks.Pop();
             // 5
-            if (mod == Mode.WHILE)
+            if (mod1 == Mode.WHILE)
             {
-                
-                _currentStep = mark - 1;
+                if (mod == Mode.IF)
+                {
+                    _currentStep = mark - 1;
+                }
+                else if (mod == Mode.IGNORE)
+                {
+                }
+                else
+                {
+                    throw new Exception("temop");
+                }
             }
             else
             {
-                _mods.Pop();
+                throw new Exception("temop");
             }
         }
 
@@ -217,10 +247,10 @@ namespace Interpritator
 
         internal void StartSaveValue()
         {
-           /* if (_mods.Peek() == Mode.IGNORE) { return; }
+           if (_mods.Peek() == Mode.IGNORE) { return; }
 
             _mods.Pop();
-            _mods.Push(Mode.SAVE_VALUE);*/
+            _mods.Push(Mode.SAVE_VALUE);
         }
 
         internal void PushValueFromArrayToStack()
@@ -322,13 +352,37 @@ namespace Interpritator
                 CompareOperation(compareOperations[type]);
         }
 
+        private string RepeatString(string str, int n)
+        {
+            StringBuilder sb = new();
+            for (int i = 0; i < n; i++)
+            {
+                sb.Append(str);
+            }
+            return sb.ToString();
+        }
+
         internal void MultiplieOperation()
         {
             if (_mods.Peek() == Mode.IGNORE) { return; }
             var val1 = this.PopValue();
             var val2 = this.PopValue();
 
-            this.AddValue(new ValueTerminal(TerminalType.Integer, (int)val2.Value * (int)val1.Value));
+
+            if ((val1.Type == TerminalType.Number || val1.Type == TerminalType.Integer) && val2.Type == TerminalType.Line) 
+            {
+                this.AddValue(new ValueTerminal(TerminalType.Line, RepeatString(val2.Value.ToString(), (int)val1.Value)));
+
+            }
+            else if((val2.Type == TerminalType.Number || val1.Type == TerminalType.Integer) && val1.Type == TerminalType.Line)
+            {
+                this.AddValue(new ValueTerminal(TerminalType.Line, RepeatString(val1.Value.ToString(), (int)val2.Value)));
+
+            }
+            else
+            {
+                this.AddValue(new ValueTerminal(TerminalType.Integer, (int)val2.Value * (int)val1.Value));
+            }
         }
 
         internal void MinusOperation()

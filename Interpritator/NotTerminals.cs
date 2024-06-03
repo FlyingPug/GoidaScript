@@ -1054,6 +1054,12 @@ namespace Interpritator
                         currentTerminal,
                         currentTerminal));
                     break;
+                    // WARNING LIGHT
+                case Terminal.TerminalType.Line:
+                    generator.Push(new Tuple<Token, Terminal>(
+                        currentTerminal,
+                        currentTerminal));
+                    break;
                 default:
                     throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     /* WARNING WARNING ХЗ ХОРОШАЯ ЛИ ИДЕЯ

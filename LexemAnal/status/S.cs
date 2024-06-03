@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Анализатор_лексем.Exceptions;
 
 namespace Анализатор_лексем
 {
@@ -66,7 +67,7 @@ namespace Анализатор_лексем
                         END("EQUAL");
                         break;
                     default:
-                        throw new Exception($"Недопустимый символ. {current}");
+                        throw new LLException($"Недопустимый символ. {current} Номер символа - {InputData.Pointer}. Номер строки - {InputData.LineNumber}");
                 }
             }
 

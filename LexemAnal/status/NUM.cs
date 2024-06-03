@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Анализатор_лексем.Exceptions;
 
 namespace Анализатор_лексем
 {
@@ -31,19 +32,19 @@ namespace Анализатор_лексем
 
             if (InputData.Pointer >= InputData.Data.Length) throw new Exception($"неожиданное окончание файла при чтении числа");
 
-
-            switch (InputData.CurentCharGroup())
+            var current = InputData.CurentCharGroup();
+            switch (current)
             {
                 case "<ц>":  Analyse(); break;
-                case "<б>":  throw new Exception("Недопустимый символ");
+                case "<б>": throw new LLException($"Недопустимый символ. {current} Номер символа - {InputData.Pointer}. Номер строки - {InputData.LineNumber}");
                 case "< >":  END(); break;
-                case "<'>": throw new Exception("Недопустимый символ");
+                case "<'>": throw new LLException($"Недопустимый символ. {current} Номер символа - {InputData.Pointer}. Номер строки - {InputData.LineNumber}");
                 case "<,>": 
                 case "<;>":  
                 case "<c>": 
                 case ">,<":  
                 case "<=>":  END_minus(); break;
-                default:     throw new Exception("Недопустимый символ");
+                default: throw new LLException($"Недопустимый символ. {current} Номер символа - {InputData.Pointer}. Номер строки - {InputData.LineNumber}");
             }
         }
     }

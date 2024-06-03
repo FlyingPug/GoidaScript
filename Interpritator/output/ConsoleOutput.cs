@@ -8,9 +8,14 @@ namespace Interpritator.output
 {
     public class ConsoleOutput : IOutput
     {
-        void IOutput.Print(string message)
+        public void PrintLine(string message)
         {
             Console.WriteLine(message);
+        }
+
+        void IOutput.Print(string message)
+        {
+            Console.Write(message);
         }
 
         string IOutput.ReadAll()

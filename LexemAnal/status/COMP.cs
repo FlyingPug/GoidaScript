@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Анализатор_лексем.Exceptions;
 
 namespace Анализатор_лексем
 {
@@ -40,12 +41,12 @@ namespace Анализатор_лексем
                 case "<б>": END_minus(); break;
                 case "< >": END(); break;
                 case "<'>": END_minus(); break;
-                case "<,>": throw new Exception("Недопустимый символ");
-                case "<;>": throw new Exception("Недопустимый символ");
+                case "<,>": throw new LLException("Недопустимый символ");
+                case "<;>": throw new LLException("Недопустимый символ");
                 case "<с>": END_minus(); break;
                 case ">,<": END(); break;
                 case "<=>": END(); break;
-                default: throw new Exception("Недопустимый символ");
+                default: throw new LLException("Недопустимый символ");
             }
         }
     }

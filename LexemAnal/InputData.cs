@@ -15,18 +15,19 @@ namespace Анализатор_лексем
         public static int Pointer { get; set; } = 0;
 
         public static char Current { get { return Data[Pointer]; } }
+        public static int LineNumber { get; set; } = 0;
 
         public static List<(string, string)> lexems = new List<(string, string)>();
 
         public static string CurentCharGroup()
         {
             if (Pointer >= Data.Length) throw new Exception("Внезапное окончание файла");
-            else if(Current >= '0' && Current <= '9')
+            else if (Current >= '0' && Current <= '9')
                 return "<ц>";
-            else if (Current >= 'a' && Current <= 'z' || Current >= 'A' && Current <= 'Z' || Current == '_'  || Char.IsLetter(Current))
+            else if (Current >= 'a' && Current <= 'z' || Current >= 'A' && Current <= 'Z' || Current == '_' || Char.IsLetter(Current))
                 return "<б>";
             else if (Current == ' ') return "< >";
-            else if (Current == '\n') return "<\n>";
+            else if (Current == '\n') { LineNumber++; return "<\n>"; }
             else if (Current == '\r') return "< >";
             else if (Current == '\'') return "<'>";
             else if (Current == ',') return "<,>";
@@ -43,7 +44,7 @@ namespace Анализатор_лексем
                     Current == '}')
                 return "<c>";
             else if (Current == '{' || Current == '}') return "<{>";
-            else throw new ArgumentOutOfRangeException("символ \"" + Current + "\" недопустим в грамматике");
+            else return "<c>";// throw new ArgumentOutOfRangeException("символ \"" + Current + "\" недопустим в грамматике");
         }
     }
 }

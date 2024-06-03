@@ -41,5 +41,10 @@ namespace Interpritator.output
             
             return lines[currentIndex++];
         }
+
+        public void PrintLine(string message)
+        {
+            output.Append(message);
+        }
     }
 }

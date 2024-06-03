@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Анализатор_лексем;
+using Анализатор_лексем.Exceptions;
 
 namespace GoidScriptTests
 {
@@ -34,7 +35,7 @@ namespace GoidScriptTests
 
         [Test]
         public void TestCorrectWhile()
-        {
+        {// int a = 5; int j = 0; while (a > 0) { print(a) a = a - 1 j = 0 while (j < 10) { print('second') print(j) j = j + 1 } }
             string input = "int a = 5; while(a > 0){print(a) a = a - 1}";
 
             interpreter.Interpret(input);
@@ -55,11 +56,32 @@ namespace GoidScriptTests
         [Test]
         public void SortArrayCorrect()
         {
-            string input = "int n = input(); int i = 0; int temp = 0; int j = 0; int arr[n] = {1, 4, 3, 2, 5 }; while (i < n - 1) { j = 0 temp = 0  while (j < n - i - 1) { if (arr[j] > arr[j + 1]) { temp = arr[j] arr[j] = arr[j + 1] arr[j + 1] = temp } else { } j = j + 1 } i = i + 1} i = 0 while ( i < n ) { print(arr[i]) i = i + 1 }";
-            output.Input = "2";
+            string input = "int n = input(); int i = 0; int temp = 0; int j = 0; int arr[n] = {1, 4, 3, 2, 5 }; while (i < n - 1) { j = 0 temp = 0  while (j < n - i - 1) { if (arr[j] > arr[j + 1]) { temp = arr[j] arr[j] = arr[j + 1] arr[j + 1] = temp } else { } j = j + 1 } i = i + 1 } i = 0 while ( i < n ) { print(arr[i]) i = i + 1 } ";
+            output.Input = "5";
             interpreter.Interpret(input);
 
-            Assert.That(output.Output, Is.EqualTo("угадай число\r\nне угадал\r\n"));
+            Assert.That(output.Output, Is.EqualTo("1\r\n2\r\n3\r\n4\r\n5\r\n"));
+        }
+
+        [Test]
+        public void GoalTest()
+        {
+            string input = "int n = input();  print('г')  print('о' * n) print('л')  ";
+            output.Input = "5";
+            interpreter.Interpret(input);
+
+            Assert.That(output.Output, Is.EqualTo("г\r\nооооо\r\nл\r\n"));
+        }
+
+        [Test]
+        public void ErrorsTest()
+        {
+            string input = "dcas! ERd223 4=23 f-dw23 42341243cas";
+            interpreter.Interpret(input);
+            Assert.Throws<LLException>(() => interpreter.Interpret(input));
+           // Assert.That(output.Output, Is.EqualTo("[Log -11:59:17 ][Критическая ошибка] ошибка лексического анализатора: Недопустимый символ. < б > Номер символа - 33.Номер строки - 0"));
+            
+            //Assert.That(ex.Message, Is.EqualTo("Actual exception message"));
         }
     }
 }

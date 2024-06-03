@@ -10,6 +10,8 @@ namespace Interpritator.output
     {
         public void Print(string message);
 
+        public void PrintLine(string message);
+
         public string ReadAll();
 
         public string ReadLine();
