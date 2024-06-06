@@ -184,12 +184,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -392,12 +396,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -743,12 +751,16 @@ namespace Interpritator
             switch (currentTerminal.Type)
             {
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -831,12 +843,16 @@ namespace Interpritator
                         currentTerminal));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1005,12 +1021,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1081,12 +1101,16 @@ namespace Interpritator
                         currentTerminal));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1173,12 +1197,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1328,12 +1356,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1469,12 +1501,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1571,12 +1607,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
@@ -1800,12 +1840,16 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 case Terminal.TerminalType.AdditionOperation:
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Empty),
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new CheckMinusTerminal(currentTerminal),
-                        new Terminal(Terminal.TerminalType.Empty)));
+                    if (currentTerminal.GetType() == typeof(MinusTerminal))
+                    {
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new Terminal(Terminal.TerminalType.Empty),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                        generator.Push(new Tuple<Token, Terminal>(
+                            new CheckMinusTerminal(currentTerminal),
+                            new Terminal(Terminal.TerminalType.Empty)));
+                    }
+                    else throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     break;
                 case Terminal.TerminalType.Number:
                     generator.Push(new Tuple<Token, Terminal>(
