@@ -74,14 +74,14 @@ namespace Interpritator
 
     public class ValueTerminal : RPNTerminal
     {
-        private readonly IConvertible _value;
+        private IConvertible _value;
 
         public ValueTerminal(TerminalType type, IConvertible value) : base(type)
         {
             _value = value;
         }
 
-        public IConvertible Value { get { return _value; } }
+        public IConvertible Value { get { return _value; } set { _value = value; } }
     }
 
     public class IdentifierTerminal : ValueTerminal

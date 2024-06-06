@@ -55,7 +55,7 @@ namespace GoidScriptTests
 
         [Test]
         public void SortArrayCorrect()
-        {
+        {// int n = input(); int i = 0; int temp = 0; int j = 0; int arr[n] = {1, 4, 3, 2, 5, 25, 7, 76, 34, 345, 345, 3452, 2342, 235, 23511 }; while (i < n - 1) { j = 0 temp = 0  while (j < n - i - 1) { if (arr[j] > arr[j + 1]) { temp = arr[j] arr[j] = arr[j + 1] arr[j + 1] = temp } else { } j = j + 1 } i = i + 1 } i = 0 while ( i < n ) { print(arr[i]) print(' ') i = i + 1 }
             string input = "int n = input(); int i = 0; int temp = 0; int j = 0; int arr[n] = {1, 4, 3, 2, 5 }; while (i < n - 1) { j = 0 temp = 0  while (j < n - i - 1) { if (arr[j] > arr[j + 1]) { temp = arr[j] arr[j] = arr[j + 1] arr[j + 1] = temp } else { } j = j + 1 } i = i + 1 } i = 0 while ( i < n ) { print(arr[i]) i = i + 1 } ";
             output.Input = "5";
             interpreter.Interpret(input);
@@ -79,9 +79,6 @@ namespace GoidScriptTests
             string input = "dcas! ERd223 4=23 f-dw23 42341243cas";
             interpreter.Interpret(input);
             Assert.Throws<LLException>(() => interpreter.Interpret(input));
-           // Assert.That(output.Output, Is.EqualTo("[Log -11:59:17 ][Критическая ошибка] ошибка лексического анализатора: Недопустимый символ. < б > Номер символа - 33.Номер строки - 0"));
-            
-            //Assert.That(ex.Message, Is.EqualTo("Actual exception message"));
         }
     }
 }

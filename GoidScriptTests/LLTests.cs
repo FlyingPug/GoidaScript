@@ -8,7 +8,7 @@ namespace GoidScriptTests
         public void Setup()
         {
         }
-
+        // int n = 5; int arr[n] = { 1, 2, 3, 4, 5 }; int S = 0; int i = 0; while( i < n ) { S = arr[i] + S i = i + 1 } print(S)
         [Test]
         public void Test22terminals()
         {

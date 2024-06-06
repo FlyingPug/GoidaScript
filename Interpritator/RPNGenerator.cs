@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
@@ -61,8 +62,12 @@ namespace Interpritator
                     }
                 }
                 else if(currentToken.GetType().IsSubclassOf(typeof(Terminal)) || currentToken.GetType() == typeof(Terminal))
-                {
-                    if(input.Count > 0) input.Dequeue();
+                { 
+                    if(input.Count > 0)
+                    {
+
+                        var inp = input.Dequeue();
+                    }
                 }
                 else
                 {
@@ -72,6 +77,26 @@ namespace Interpritator
             Logger.Log($"[Генератор ОПС] генерация опс завершена", 1);
 
             return rPNTerminals;
+        }
+    }
+
+    [Serializable]
+    internal class WrongTerminalException : Exception
+    {
+        public WrongTerminalException()
+        {
+        }
+
+        public WrongTerminalException(string? message) : base(message)
+        {
+        }
+
+        public WrongTerminalException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
+
+        protected WrongTerminalException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }
