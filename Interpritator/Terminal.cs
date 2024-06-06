@@ -9,17 +9,6 @@ using static Interpritator.Terminal;
 
 namespace Interpritator
 {
-
-    /*
-     * Класс Terminal нужен нам чисто для генерации ОПС, сам он в себе логики не несет
-     * Его наследники в свою очередь находятся в опс и каждый из них имеет в себе
-     * какую-то цель, которую при обработке самой ОПС мы будет выполнять. Очень важно,
-     * чтобы при выводе из генератора в опс, в опс находились только те терминалы, которые
-     * в себе что-то несут. 
-     * Чисто логически, не стоит наследоваться от Terminal, а сделать
-     * отдельный класс RPNCharacter, но тогда нужно будет переписывать генерацию ОПС
-     * */
-
     public class Terminal : Token
     {
         public enum TerminalType
@@ -343,7 +332,6 @@ namespace Interpritator
         }
     }
 
-    // какой же это костыль, но я уже не знаю что делать
     public class CompareTerminal : OperationTerminal
     {
         public CompareTerminal(TerminalType terminalType) : base(terminalType)

@@ -35,7 +35,7 @@ namespace GoidScriptTests
 
         [Test]
         public void TestCorrectWhile()
-        {// int a = 5; int j = 0; while (a > 0) { print(a) a = a - 1 j = 0 while (j < 10) { print('second') print(j) j = j + 1 } }
+        {
             string input = "int a = 5; while(a > 0){print(a) a = a - 1}";
 
             interpreter.Interpret(input);

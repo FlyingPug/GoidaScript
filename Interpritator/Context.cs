@@ -36,7 +36,6 @@ namespace Interpritator
         private int _currentInd = 0;
         private int _arrayCount = 0;
 
-        // сраные костыли
         private int openCount = 0;
 
         private IOutput _output;

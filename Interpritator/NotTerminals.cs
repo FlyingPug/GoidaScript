@@ -8,42 +8,6 @@ using System.Threading.Tasks;
 
 namespace Interpritator
 {
-    /*
-     * В генератор мы должны запихнуть лишь два типа терминалов
-     * Пустышки, которые мы потом будем просто убирать,
-     * Терминалы, которые затем будут перенесены в ОПС, а это могут быть
-     * идентификаторы, которые у нас хранятся в виде строки
-     * терминалы, хранящие значение для записи (это различные числа, строки, boolean)
-     * операции, это может быть как +, -, так и print, program11, program16
-     * a 5 + print - пример нашей опс
-     * всякие терминалы типа скобочек, мы не учитываем, поэтому в генератор вместо них
-     * мы как и вместо терминалов должны занести new Terminal(Terminal.TerminalType.Empty),
-     * но, когда мы получаем на вход терминал, которые должны быть перенесены в ОПС (a 5 + print),
-     * мы должны сохранить в генераторе именно этот терминал currentTerminal, а не создавать
-     * new Terminal(Terminal.TerminalType.Number), потому что тогда мы потеряем значение или операцию,
-     * которую несет терминал.
-     * 
-     * Т.Е
-     * Заменить
-     * generator.Push(new Tuple<Token, Terminal>(
-        new Terminal(Terminal.TerminalType.MultiplieOperation),
-        new Terminal(Terminal.TerminalType.MultiplieOperation)));
-       break;
-    на
-    generator.Push(new Tuple<Token, Terminal>(
-        currentTerminal,
-        currentTerminal));
-       break;
-     * */
-
-    /*
-     * Короче, тут есть мой проёб
-     * new Terminal(Terminal.TerminalType.Empty)
-     * вот такой хуйни по идее быть не должно, мы не должны создавать терминалы через new Terminal
-     * и пихать их в генератор т.к у нас тогда попадут всякие скобки, и прочая лабудень,
-     *  ошибка не критичная т.к мы проверяем только значимые терминалы, но всё же
-     * */
-
     public abstract class NotTerminal : Token
     {
         public abstract Stack<Tuple<Token, Terminal>> Evaluate(Terminal currentTerminal);
@@ -77,7 +41,6 @@ namespace Interpritator
        
             switch (currentTerminal.Type)
             {
-                // good
                 case Terminal.TerminalType.OpenBracket:
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
@@ -98,7 +61,6 @@ namespace Interpritator
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
-                // 
                 case Terminal.TerminalType.IfStatement:
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.IfStatement),
@@ -279,7 +241,6 @@ namespace Interpritator
 
             switch (currentTerminal.Type)
             {
-                // good
                 case Terminal.TerminalType.OpenBracket:
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
@@ -300,7 +261,6 @@ namespace Interpritator
                         new InstructionList(),
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
-                // 
                 case Terminal.TerminalType.IfStatement:
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.IfStatement),
@@ -868,8 +828,6 @@ namespace Interpritator
                         new Terminal(Terminal.TerminalType.Empty)));
                     break;
                 default:
-                    // WARNING WARNING ЛЮТЕЕЕЙШИЙ КОСТЫЛЬ
-                    // throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
                     generator.Push(new Tuple<Token, Terminal>(
                         new Terminal(Terminal.TerminalType.Lambda),
                         new Terminal(Terminal.TerminalType.Lambda)));
@@ -1054,7 +1012,6 @@ namespace Interpritator
                         currentTerminal,
                         currentTerminal));
                     break;
-                    // WARNING LIGHT
                 case Terminal.TerminalType.Line:
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
@@ -1062,11 +1019,6 @@ namespace Interpritator
                     break;
                 default:
                     throw new NotImplementedException($"не должен быть сейчас данный терминал {currentTerminal}");
-                    /* WARNING WARNING ХЗ ХОРОШАЯ ЛИ ИДЕЯ
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new Terminal(Terminal.TerminalType.Lambda),
-                        new Terminal(Terminal.TerminalType.Lambda)));
-                    break;*/
             }
             return generator;
         }
@@ -1321,7 +1273,6 @@ namespace Interpritator
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
-                    // WARNING Z Z Z Z Z Z Z Z Z Z
                     generator.Push(new Tuple<Token, Terminal>(
                         new Z(),
                         compare));
@@ -1612,22 +1563,12 @@ namespace Interpritator
                 case Terminal.TerminalType.LessEqualCompareOperation:
                 case Terminal.TerminalType.EqualCompareOperation:
                 case Terminal.TerminalType.CompareOperaion:
-                    /* WARNING 
-                    generator.Push(new Tuple<Token, Terminal>(
-                        currentTerminal,
-                        new Terminal(Terminal.TerminalType.Empty)));
-                    generator.Push(new Tuple<Token, Terminal>(
-                        new ExpressionNT(),
-                        currentTerminal));;
-                    break;
-                    */
                     generator.Push(new Tuple<Token, Terminal>(
                         currentTerminal,
                         new Terminal(Terminal.TerminalType.Empty)));
                     generator.Push(new Tuple<Token, Terminal>(
                         new ExpressionNT(),
                         new Terminal(Terminal.TerminalType.Empty)));
-                    // Это очень тёмное заклинание, НЕ ТРОГАТЬ!!!
                     generator.Push(new Tuple<Token, Terminal>(
                         new Z(),
                         currentTerminal)); ;

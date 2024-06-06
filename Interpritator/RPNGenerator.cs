@@ -18,7 +18,6 @@ namespace Interpritator
         }
     }
 
-    // дикий папуанский танк
     public class RPNGenerator
     {
         // input - вход из лексического анализатора
@@ -50,8 +49,6 @@ namespace Interpritator
                 {
                     var term = input.Count > 0 ? input.Peek() : new Terminal(Terminal.TerminalType.Empty);
                     Stack<Tuple<Token, Terminal>> toAdd = ((NotTerminal)currentToken).Evaluate(term);
-
-                    // ОБЪЯВЛЯЮ ГОЙДУ
 
                     if (toAdd.First().Item2.Type != Terminal.TerminalType.Lambda)
                     {
